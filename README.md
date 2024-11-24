@@ -1,56 +1,39 @@
 # <p align="center">URL Scheme Handler<p>
 
-快速为 Windows 应用添加 URL Scheme 以便从浏览器打开外部程序
+为 Windows 应用添加自定义 URL Scheme 以便从浏览器调用
 
-## 下载
+## 🧱 安装
 
-[releases](https://github.com/LuckyPuppy514/url-scheme-handler/releases)
+### 1. 下载
 
-[蓝奏云](https://kutt.lckp.top)
+[LuckyPuppy514/url-scheme-handler](https://github.com/LuckyPuppy514/url-scheme-handler/releases)
 
-## 安装
+### 2. 运行
 
 以 **管理员** 身份运行 `url-scheme-handler.exe`
 
-### 1. 添加注册表
+### 3. 添加注册表
 
 点击 `Add to Registry` 添加注册表
 
-### 2. 添加应用并保存
+### 4. 添加应用并保存
 
 点击 `+` 添加应用，输入应用名称，选择对应的可执行程序后点击 `Save` 保存
 
-## 使用
+## ✍️ 用法
 
 ```text
 ush://${app_name}?${gzip_args}
 ```
 
-调用例子
+## 👏 相关仓库
 
-```javascript
-function compress(str) {
-    return btoa(String.fromCharCode(...pako.gzip(str)));
-}
+- [LuckyPuppy514/external-player](https://github.com/LuckyPuppy514/external-player)
 
-const appName = 'MPV';
+## 😘 如何贡献
 
-const media = {
-    video: 'https://example.com/1.mp4',
-    title: 'URL Scheme Handler',
-}
+非常欢迎你的加入！[提一个 Issue](https://github.com/LuckyPuppy514/url-scheme-handler/issues/new) 或者提交一个 Pull Request。
 
-let args = [
-    `"${media.video}"`,
-    `--force-media-title="${media.title}"`,
-]
-args = args.filter(item => item !== '');
+## 🃏 使用许可
 
-window.open(`ush://${appName}?${compress(args.join(' '))}`, '_self');
-```
-
-实际执行命令
-
-```bat
-app_path "https://example.com/1.mp4" --force-media-title="URL Scheme Handler"
-```
+[MIT](https://github.com/LuckyPuppy514/url-scheme-handler/blob/main/LICENSE) © LuckyPuppy514
