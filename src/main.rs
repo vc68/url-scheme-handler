@@ -15,6 +15,7 @@ use std::{
     process::Command,
     ptr::null_mut,
 };
+use urlencoding::decode;
 use winapi::um::winuser::{MessageBoxW, MB_ICONINFORMATION, MB_OK};
 use winreg::{enums::*, RegKey};
 
@@ -52,28 +53,12 @@ fn add_url_scheme() -> Result<(), Box<dyn Error>> {
     let (command_key, _disp) = key.create_subkey("shell\\open\\command")?;
     command_key.set_value("", &command)?;
 
-    let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
-    let (chrome_checkbox, _disp) = hklm.create_subkey("SOFTWARE\\Policies\\Google\\Chrome")?;
-    chrome_checkbox.set_value("ExternalProtocolDialogShowAlwaysOpenCheckbox", &1u32)?;
-
-    let (edge_checkbox, _disp) = hklm.create_subkey("SOFTWARE\\Policies\\Microsoft\\Edge")?;
-    edge_checkbox.set_value("ExternalProtocolDialogShowAlwaysOpenCheckbox", &1u32)?;
-
     Ok(())
 }
 
 fn remove_url_scheme() -> Result<(), Box<dyn Error>> {
     let hkcu = RegKey::predef(HKEY_CURRENT_USER);
     hkcu.delete_subkey_all("Software\\Classes\\ush")?;
-
-    let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
-    let chrome_key =
-        hklm.open_subkey_with_flags(r"SOFTWARE\Policies\Google\Chrome", KEY_SET_VALUE)?;
-    chrome_key.delete_value("ExternalProtocolDialogShowAlwaysOpenCheckbox")?;
-
-    let edge_key =
-        hklm.open_subkey_with_flags(r"SOFTWARE\Policies\Microsoft\Edge", KEY_SET_VALUE)?;
-    edge_key.delete_value("ExternalProtocolDialogShowAlwaysOpenCheckbox")?;
 
     Ok(())
 }
@@ -124,7 +109,7 @@ fn main() -> std::io::Result<()> {
         [_] => {
             let options = eframe::NativeOptions {
                 viewport: egui::ViewportBuilder::default()
-                    .with_inner_size(egui::vec2(780.0, 390.0))
+                    .with_inner_size(egui::vec2(700.0, 350.0))
                     .with_resizable(true),
                 ..Default::default()
             };
@@ -139,14 +124,20 @@ fn main() -> std::io::Result<()> {
                 let parts: Vec<&str> = stripped.split('?').collect();
 
                 if parts.len() == 2 {
-                    let name = parts[0].trim_end_matches('/');
+                    let decoded =
+                        decode(parts[0].trim_end_matches('/')).expect("Failed to decode URL");
+                    let app_name = decoded.as_ref();
                     let gzip_args = parts[1].trim_end_matches('/');
 
                     if let Ok(args) = decompress(&gzip_args) {
                         let config = Config::load_from_file("config.json");
                         let app_path: &str;
 
-                        if let Some(app) = config.apps.iter().find(|app| app.name == *name) {
+                        if let Some(app) = config
+                            .apps
+                            .iter()
+                            .find(|app| app.name.trim() == app_name.trim())
+                        {
                             app_path = app.path.as_deref().unwrap_or("");
                             println!("Executing command: {} {}", app_path, args);
                             let output = Command::new(app_path)
@@ -162,7 +153,10 @@ fn main() -> std::io::Result<()> {
                                 show_message_box("Error", &stderr);
                             }
                         } else {
-                            show_message_box("Error", &format!("No app found with name: {}", name));
+                            show_message_box(
+                                "Error",
+                                &format!("No app found with name: {}", app_name),
+                            );
                         }
                     } else {
                         show_message_box("Error", "Failed to decompress gzip args");
@@ -175,7 +169,10 @@ fn main() -> std::io::Result<()> {
             }
         }
         _ => {
-            show_message_box("Error", "Invalid arguments. Usage: run <gzip_args>");
+            show_message_box(
+                "Error",
+                "Invalid arguments. Usage: run ush://app_name?<gzip_args>",
+            );
         }
     }
     Ok(())
@@ -214,12 +211,16 @@ impl eframe::App for UrlSchemeHandler {
                             ui.horizontal(|ui| {
                                 ui.set_min_height(label_height);
 
-                                ui.add_sized(
+                                let app_name_input = ui.add_sized(
                                     [label_width, label_height],
                                     egui::TextEdit::singleline(&mut self.config.apps[index].name)
                                         .vertical_align(egui::Align::Center)
                                         .horizontal_align(egui::Align::Center),
                                 );
+
+                                if app_name_input.lost_focus() {
+                                    self.config.save_to_file("config.json");
+                                }
 
                                 if ui
                                     .add_sized(
@@ -234,8 +235,13 @@ impl eframe::App for UrlSchemeHandler {
                                         .add_filter("Executable", &["exe"])
                                         .pick_file()
                                     {
-                                        self.config.apps[index].path =
-                                            Some(path.display().to_string());
+                                        if path.display().to_string().is_empty() {
+                                            println!("The path is empty.");
+                                        } else {
+                                            self.config.apps[index].path =
+                                                Some(path.display().to_string());
+                                            self.config.save_to_file("config.json");
+                                        }
                                     }
                                 }
                                 if ui
@@ -253,6 +259,7 @@ impl eframe::App for UrlSchemeHandler {
 
                         for index in remove_indices.into_iter().rev() {
                             self.config.apps.remove(index);
+                            self.config.save_to_file("config.json");
                         }
                     });
                 });
@@ -269,19 +276,6 @@ impl eframe::App for UrlSchemeHandler {
                     .clicked()
                 {
                     self.config.apps.push(AppConfig::default());
-                }
-
-                ui.add_space(10.0);
-
-                if ui
-                    .add_sized(
-                        [ui.available_width(), label_height],
-                        egui::Button::new("Save"),
-                    )
-                    .clicked()
-                {
-                    self.config.save_to_file("config.json");
-                    show_message_box("Info", "Saved successfully");
                 }
 
                 ui.add_space(10.0);
