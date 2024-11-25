@@ -4,7 +4,7 @@
 
 ## 🧱 下载
 
-Release：[url-scheme-handler/releases](https://github.com/LuckyPuppy514/url-scheme-handler/releases)
+Releases：[url-scheme-handler/releases](https://github.com/LuckyPuppy514/url-scheme-handler/releases)
 
 蓝奏云，密码 `5kl2`：[https://kutt.lckp.top/OdMR0G](https://kutt.lckp.top/OdMR0G)
 
