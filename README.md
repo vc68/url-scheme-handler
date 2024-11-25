@@ -4,7 +4,9 @@
 
 ## 🧱 下载
 
-[LuckyPuppy514/url-scheme-handler](https://github.com/LuckyPuppy514/url-scheme-handler/releases)
+Release：[url-scheme-handler/releases](https://github.com/LuckyPuppy514/url-scheme-handler/releases)
+
+蓝奏云，密码 `5kl2`：[https://kutt.lckp.top/OdMR0G](https://kutt.lckp.top/OdMR0G)
 
 ## ✍️ 使用
 
@@ -13,13 +15,15 @@
 3. 在左边输入框填写应用名称
 4. 在右边选择需要调用的应用
 
-![20241125202543](https://github.com/LuckyPuppy514/image/url-scheme-handler/main/screenshot/20241125202543.jpg)
+![20241125202543](https://github.com/LuckyPuppy514/url-scheme-handler/blob/main/screenshot/20241125202543.jpg?raw=true)
 
 建议添加以下注册表，添加后首次运行可勾选是否自动允许运行，后续不用再弹窗确认
 
-[Enable_ExternalProtocolDialog_ShowCheckbox.reg](https://github.com/LuckyPuppy514/image/url-scheme-handler/main/reg/Enable_ExternalProtocolDialog_ShowCheckbox.reg)
+[Enable_ExternalProtocolDialog_ShowCheckbox.reg](https://github.com/LuckyPuppy514/url-scheme-handler/blob/main/reg/Enable_ExternalProtocolDialog_ShowCheckbox.reg)
 
-[Remove_ExternalProtocolDialog_ShowCheckbox.reg](https://github.com/LuckyPuppy514/image/url-scheme-handler/main/reg/Remove_ExternalProtocolDialog_ShowCheckbox.reg)
+[Remove_ExternalProtocolDialog_ShowCheckbox.reg](https://github.com/LuckyPuppy514/url-scheme-handler/blob/main/reg/Remove_ExternalProtocolDialog_ShowCheckbox.reg)
+
+蓝奏云，密码 `5kl2`：[https://kutt.lckp.top/OdMR0G](https://kutt.lckp.top/OdMR0G)
 
 ## ✍️ 用法
 
