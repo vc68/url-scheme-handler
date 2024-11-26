@@ -17,11 +17,11 @@ Releases：[url-scheme-handler/releases](https://github.com/LuckyPuppy514/url-sc
 
 ![20241125202543](https://github.com/LuckyPuppy514/url-scheme-handler/blob/main/screenshot/20241125202543.jpg?raw=true)
 
-建议添加以下注册表，添加后首次运行可勾选是否自动允许运行，后续不用再弹窗确认
+建议添加 `开启勾选框` 注册表，添加后首次运行可勾选是否自动允许运行，后续不用再弹窗确认
 
-[Enable_ExternalProtocolDialog_ShowCheckbox.reg](https://github.com/LuckyPuppy514/url-scheme-handler/blob/main/reg/Enable_ExternalProtocolDialog_ShowCheckbox.reg)
+开启勾选框：[Enable_ExternalProtocolDialog_ShowCheckbox.reg](https://github.com/LuckyPuppy514/url-scheme-handler/blob/main/reg/Enable_ExternalProtocolDialog_ShowCheckbox.reg)
 
-[Remove_ExternalProtocolDialog_ShowCheckbox.reg](https://github.com/LuckyPuppy514/url-scheme-handler/blob/main/reg/Remove_ExternalProtocolDialog_ShowCheckbox.reg)
+移除勾选框：[Remove_ExternalProtocolDialog_ShowCheckbox.reg](https://github.com/LuckyPuppy514/url-scheme-handler/blob/main/reg/Remove_ExternalProtocolDialog_ShowCheckbox.reg)
 
 蓝奏云，密码 `5kl2`：[https://kutt.lckp.top/OdMR0G](https://kutt.lckp.top/OdMR0G)
 
