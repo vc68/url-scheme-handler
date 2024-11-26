@@ -78,6 +78,21 @@ fn show_message_box(title: &str, message: &str) {
     }
 }
 
+fn open_setting_widow() {
+    let options = eframe::NativeOptions {
+        viewport: egui::ViewportBuilder::default()
+            .with_inner_size(egui::vec2(700.0, 350.0))
+            .with_resizable(true),
+        centered: true,
+        ..Default::default()
+    };
+    let _ = eframe::run_native(
+        "URL Scheme Handler",
+        options,
+        Box::new(|_cc| Ok(Box::new(UrlSchemeHandler::default()))),
+    );
+}
+
 impl Config {
     fn load_from_file(path: &str) -> Self {
         if Path::new(path).exists() {
@@ -107,17 +122,7 @@ fn main() -> std::io::Result<()> {
 
     match args.as_slice() {
         [_] => {
-            let options = eframe::NativeOptions {
-                viewport: egui::ViewportBuilder::default()
-                    .with_inner_size(egui::vec2(700.0, 350.0))
-                    .with_resizable(true),
-                ..Default::default()
-            };
-            let _ = eframe::run_native(
-                "URL Scheme Handler",
-                options,
-                Box::new(|_cc| Ok(Box::new(UrlSchemeHandler::default()))),
-            );
+            open_setting_widow();
         }
         [_, command, input] if command == "run" => {
             if let Some(stripped) = input.strip_prefix("ush://") {
@@ -157,6 +162,7 @@ fn main() -> std::io::Result<()> {
                                 "Error",
                                 &format!("No app found with name: {}", app_name),
                             );
+                            open_setting_widow();
                         }
                     } else {
                         show_message_box("Error", "Failed to decompress gzip args");
@@ -171,7 +177,7 @@ fn main() -> std::io::Result<()> {
         _ => {
             show_message_box(
                 "Error",
-                "Invalid arguments. Usage: run ush://app_name?<gzip_args>",
+                "Invalid arguments. Usage: run ush://${app_name}?${gzip_args}",
             );
         }
     }
@@ -327,5 +333,9 @@ impl eframe::App for UrlSchemeHandler {
                 ui.add_space(10.0);
             });
         });
+    }
+
+    fn on_exit(&mut self, _gl: Option<&eframe::glow::Context>) {
+        self.config.save_to_file("config.json");
     }
 }
