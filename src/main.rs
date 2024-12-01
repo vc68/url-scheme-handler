@@ -151,7 +151,11 @@ fn main() -> std::io::Result<()> {
                                 Ok(output) => {
                                     if !output.status.success() {
                                         let stderr = String::from_utf8_lossy(&output.stderr);
-                                        show_message_box("Error", &stderr);
+                                        let stdout = String::from_utf8_lossy(&output.stdout);
+                                        show_message_box(
+                                            "Error",
+                                            &format!("{}\n{}", stderr, stdout),
+                                        );
                                     } else {
                                         println!("Command executed successfully");
                                     }
