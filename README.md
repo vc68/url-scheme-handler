@@ -58,6 +58,3 @@ app_path "https://example.com/example.mp4" --force-media-title="URL Scheme Handl
 ```
 
 
-## 🃏 使用许可
-
-[MIT](https://github.com/LuckyPuppy514/url-scheme-handler/blob/main/LICENSE) © LuckyPuppy514
