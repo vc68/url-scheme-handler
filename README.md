@@ -4,7 +4,7 @@
 
 ## 🧱 下载
 
-Releases：[url-scheme-handler/releases](https://github.com/LuckyPuppy514/url-scheme-handler/releases)
+
 
 蓝奏云，密码 `5kl2`：[https://kutt.lckp.top/OdMR0G](https://kutt.lckp.top/OdMR0G)
 
@@ -15,7 +15,7 @@ Releases：[url-scheme-handler/releases](https://github.com/LuckyPuppy514/url-sc
 3. 在左边输入框填写应用名称
 4. 在右边选择需要调用的应用
 
-![20241125202543](https://github.com/LuckyPuppy514/url-scheme-handler/blob/main/screenshot/20241125202543.jpg?raw=true)
+
 
 建议添加 `开启勾选框` 注册表，添加后首次运行可勾选是否自动允许运行，后续不用再弹窗确认
 
@@ -57,13 +57,6 @@ window.open(`ush://${app_name}?${compress(args.join(' '))}`, '_self');
 app_path "https://example.com/example.mp4" --force-media-title="URL Scheme Handler"
 ```
 
-## 👏 相关仓库
-
-- [LuckyPuppy514/external-player](https://github.com/LuckyPuppy514/external-player)
-
-## 😘 如何贡献
-
-非常欢迎你的加入！[提一个 Issue](https://github.com/LuckyPuppy514/url-scheme-handler/issues/new) 或者提交一个 Pull Request。
 
 ## 🃏 使用许可
 
